@@ -45,6 +45,18 @@ var TSOS;
             // prompt <string>
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
+
+            sc = new TSOS.ShellCommand(this.shellVer, "date", " - unimplemented command");
+            this.commandList[this.commandList.length] = sc;
+
+            sc = new TSOS.ShellCommand(this.shellVer, "whereami", " - unimplemented command");
+            this.commandList[this.commandList.length] = sc;
+
+
+            sc = new TSOS.ShellCommand(this.shellVer, "new", " - unimplemented command");
+            this.commandList[this.commandList.length] = sc;
+            
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
