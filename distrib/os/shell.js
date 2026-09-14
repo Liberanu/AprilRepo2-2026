@@ -13,7 +13,7 @@ var TSOS;
         // Properties
         promptStr = ">";
         commandList = [];
-        curses = "[fuvg],[cvff],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
+        curses = "[fuck],[shit],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         apologies = "[sorry]";
         constructor() {
         }
@@ -46,14 +46,14 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
 
-            sc = new TSOS.ShellCommand(this.shellVer, "date", " - unimplemented command");
+            sc = new TSOS.ShellCommand(this.shellDate, "date", " - tells you the date");
             this.commandList[this.commandList.length] = sc;
 
-            sc = new TSOS.ShellCommand(this.shellVer, "whereami", " - unimplemented command");
+            sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", " - where are you");
             this.commandList[this.commandList.length] = sc;
 
 
-            sc = new TSOS.ShellCommand(this.shellVer, "new", " - unimplemented command");
+            sc = new TSOS.ShellCommand(this.shellWhatColor, "whatcolor", " - MTG color combo identifier");
             this.commandList[this.commandList.length] = sc;
             
 
@@ -256,7 +256,51 @@ var TSOS;
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
         }
+        shellDate(args) {
+            _StdOut.putText("Today is " + "and it is: " + "time for you to get a watch");
+        }
+        shellWhereami(args) {
+            _StdOut.putText("Wouldn't you like to know?");
+            
+        }
+        shellWhatColor(args) {
+            if (args.length > 0){
+                if (args.contains("w") && args.contains("u") && args.contains("b") && args.contains("r") && args.contains("g") ){_StdOut.putText("5 color")}
+                else if (args.contains("u") && args.contains("b") && args.contains("r") && args.contains("g") ){_StdOut.putText("Glint-Eye")} // -white
+                else if (args.contains("w") && args.contains("b") && args.contains("r") && args.contains("g") ){_StdOut.putText("Dune-Brood")} // -blue
+                else if (args.contains("w") && args.contains("u") && args.contains("r") && args.contains("g") ){_StdOut.putText("Ink-Treader")} // -black
+                else if (args.contains("w") && args.contains("u") && args.contains("b") && args.contains("g") ){_StdOut.putText("Witch-Maw")} // -red
+                else if (args.contains("w") && args.contains("u") && args.contains("b") && args.contains("r") ){_StdOut.putText("Yore-Tiller")} // -green
+                
+                else if (args.contains("g") && args.contains("b") && args.contains("u")){_StdOut.putText("Bant")} // 
+                else if (args.contains("w") && args.contains("b") && args.contains("u")){_StdOut.putText("Esper")} // 
+                else if (args.contains("u") && args.contains("r") && args.contains("b")){_StdOut.putText("Grixis")} //
+                else if (args.contains("g") && args.contains("r") && args.contains("b")){_StdOut.putText("Jund")} //
+                else if (args.contains("w") && args.contains("g") && args.contains("r")){_StdOut.putText("Naya")} //
+                else if (args.contains("r") && args.contains("b") && args.contains("w")){_StdOut.putText("Mardu")} //
+                else if (args.contains("u") && args.contains("g") && args.contains("r")){_StdOut.putText("Temur")} //
+                else if (args.contains("w") && args.contains("g") && args.contains("b")){_StdOut.putText("Abzan")} //
+                else if (args.contains("r") && args.contains("u") && args.contains("w")){_StdOut.putText("Jeskai")} //
+                else if (args.contains("b") && args.contains("u") && args.contains("g")){_StdOut.putText("Sultai")} //
+                
+                else if (args.contains("w") && args.contains("u")){_StdOut.putText("Azorious")} //
+                else if (args.contains("w") && args.contains("r")){_StdOut.putText("Boros")} //
+                else if (args.contains("b") && args.contains("u")){_StdOut.putText("Dimir")} //
+                else if (args.contains("g") && args.contains("r")){_StdOut.putText("Gruul")} //
+                else if (args.contains("b") && args.contains("r")){_StdOut.putText("izzet")} //
+                else if (args.contains("w") && args.contains("b")){_StdOut.putText("Orzhov")} //
+                else if (args.contains("b") && args.contains("r")){_StdOut.putText("Rakdos")} //
+                else if (args.contains("w") && args.contains("g")){_StdOut.putText("Selesnya")} //
+                else if (args.contains("u") && args.contains("g")){_StdOut.putText("Simic")} //
+
+                    
+            }
+            else {_StdOut.putText("invalid arguement")}  
+    }
+
+
+
     }
     TSOS.Shell = Shell;
 })(TSOS || (TSOS = {}));
-//# sourceMappingURL=shell.js.map
+//# sourceMappingURL=shell.js.maps
