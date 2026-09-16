@@ -53,7 +53,10 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", " - where are you");
             this.commandList[this.commandList.length] = sc;
 
+            sc = new TSOS.ShellCommand(this.shellStatus, "status", " - changes the status");
+            this.commandList[this.commandList.length] = sc;
 
+            
             sc = new TSOS.ShellCommand(this.shellWhatColor, "whatcolor", " - MTG color combo identifier");
             this.commandList[this.commandList.length] = sc;
             
@@ -263,8 +266,15 @@ var TSOS;
         }
         shellWhereami(args) {
             _StdOut.putText("Wouldn't you like to know?");
-            
         }
+
+        shellStatus(args) {
+            if (args.length > 0){
+                statusElement.textContent =("Current status: " + args);
+            }
+        }
+            
+        
         shellWhatColor(args) {
             if (args.length > 0){
                 _StdOut.putText("check 0")

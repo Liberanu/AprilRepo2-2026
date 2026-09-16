@@ -1,7 +1,7 @@
 
 const timeElement = document.querySelector(".time");
 const dateElement = document.querySelector(".date");
-
+const statusElement = document.querySelector(".status");
 /**
  * @param {Date} date
  */
