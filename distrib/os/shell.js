@@ -12,6 +12,7 @@ var TSOS;
     class Shell {
         // Properties
         promptStr = ">";
+        statusStr = "welcome"
         commandList = [];
         curses = "[fuck],[shit],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         apologies = "[sorry]";
@@ -257,7 +258,8 @@ var TSOS;
             }
         }
         shellDate(args) {
-            _StdOut.putText("Today is " + "and it is: " + "time for you to get a watch");
+            const now = new Date();
+            _StdOut.putText("It is " + now.toDateString() + " at " + now.toLocaleTimeString());
         }
         shellWhereami(args) {
             _StdOut.putText("Wouldn't you like to know?");
@@ -265,7 +267,9 @@ var TSOS;
         }
         shellWhatColor(args) {
             if (args.length > 0){
+                _StdOut.putText("check 0")
                 if (args.contains("w") && args.contains("u") && args.contains("b") && args.contains("r") && args.contains("g") ){_StdOut.putText("5 color")}
+                
                 else if (args.contains("u") && args.contains("b") && args.contains("r") && args.contains("g") ){_StdOut.putText("Glint-Eye")} // -white
                 else if (args.contains("w") && args.contains("b") && args.contains("r") && args.contains("g") ){_StdOut.putText("Dune-Brood")} // -blue
                 else if (args.contains("w") && args.contains("u") && args.contains("r") && args.contains("g") ){_StdOut.putText("Ink-Treader")} // -black
@@ -292,8 +296,8 @@ var TSOS;
                 else if (args.contains("b") && args.contains("r")){_StdOut.putText("Rakdos")} //
                 else if (args.contains("w") && args.contains("g")){_StdOut.putText("Selesnya")} //
                 else if (args.contains("u") && args.contains("g")){_StdOut.putText("Simic")} //
+                else ("unknown color id")
 
-                    
             }
             else {_StdOut.putText("invalid arguement")}  
     }
