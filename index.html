@@ -66,11 +66,13 @@
              tabindex="2"
              onclick="TSOS.Control.hostBtnReset_click(this);">
    </div>
-
-   <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left;">
+<!--to add further scrolling to the console, increase the height of the canvas... 2000 should be enough. Maybe add endless scrolling if memory isnt an issue?
+note to April, left old code for canvas div in in case it breaks-->
+<!--<div id="divConsole" style="margin:4px; max-width:500px; max-height:500px; float:left;"> -->
+   <div id="divConsole" style="max-height: 500px;max-width:500px;overflow: scroll;"> 
       <canvas id="display"
               width="500px"
-              height="500px"
+              height="2000px" 
               tabindex="3">
       </canvas>
    </div>
