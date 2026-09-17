@@ -45,6 +45,12 @@ var TSOS;
                 chr = String.fromCharCode(keyCode);
                 _KernelInputQueue.enqueue(chr);
             }
+            else if ((keyCode == 38) || (keyCode == 40)) {} // up down arrow
+            else if ((keyCode == 8)) {} // backspace
+            else if ((keyCode == 9)) {} //  tab
+            else if ((keyCode >= 33) && (keyCode <= 47) || (keyCode >= 58) && (keyCode <= 64)) {
+                chr =  String.fromCharCode(keyCode); // this probably wont work
+            }
         }
     }
     TSOS.DeviceDriverKeyboard = DeviceDriverKeyboard;
