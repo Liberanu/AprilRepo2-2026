@@ -1,0 +1,5 @@
+Q: How is your console like the ancient TTY subsystem in Unix as described in https://www.linusakesson.net/programming/tty/ ?
+
+A:
+This system is a messy and more bare bones approach to interfacing with the "hardware" in the TTY Subsystem it was actual hardware, whereas this console is a virtual machine. 
+The specific ways in which the action of pressing keys is stored as a line seperately from how it is displayed on the screen for the user to see...
