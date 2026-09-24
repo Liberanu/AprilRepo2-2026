@@ -29,7 +29,26 @@ var TSOS;
             _Kernel.krnTrace("Key code:" + keyCode + " shifted:" + isShifted);
             var chr = "";
             // Check to see if we even want to deal with the key that was pressed.
-            if ((keyCode >= 65) && (keyCode <= 90)) { // letter
+            if(keyCode == 8){
+                chr = String.fromCharCode(66);
+                _KernelInputQueue.enqueue(chr);
+                chr = String.fromCharCode(65);
+                _KernelInputQueue.enqueue(chr);
+                chr = String.fromCharCode(67);
+                _KernelInputQueue.enqueue(chr);
+                chr = String.fromCharCode(75);
+                _KernelInputQueue.enqueue(chr);
+                chr = String.fromCharCode(32);
+                _KernelInputQueue.enqueue(chr);
+            } // backspace check
+            else if(keyCode == 9){ // check for tab
+                chr = String.fromCharCode(32)
+                for(let i=0; i<=4;i++){
+                _KernelInputQueue.enqueue(chr);
+                } // replace this with algorithm to check if only 1 command matches the entered characters
+
+            }
+            else if ((keyCode >= 65) && (keyCode <= 90)) { // letter
                 if (isShifted === true) {
                     chr = String.fromCharCode(keyCode); // Uppercase A-Z
                 }
