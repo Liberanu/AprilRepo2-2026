@@ -42,15 +42,54 @@ var TSOS;
             else if (((keyCode >= 48) && (keyCode <= 57)) || // digits
                 (keyCode == 32) || // space
                 (keyCode == 13)) { // enter
-                chr = String.fromCharCode(keyCode);
+                    if (isShifted === false){
+                    chr = String.fromCharCode(keyCode);
+                    _KernelInputQueue.enqueue(chr);
+                    }
+                    else{
+                        if (keyCode == 48){chr = String.fromCharCode(41);}
+                        else if (keyCode == 49){chr = String.fromCharCode(33);}
+                        else if (keyCode == 50){chr = String.fromCharCode(64);}
+                        else if (keyCode == 51){chr = String.fromCharCode(35);}
+                        else if (keyCode == 52){chr = String.fromCharCode(36);}
+                        else if (keyCode == 53){chr = String.fromCharCode(37);}
+                        else if (keyCode == 54){chr = String.fromCharCode(94);}
+                        else if (keyCode == 55){chr = String.fromCharCode(38);}
+                        else if (keyCode == 56){chr = String.fromCharCode(42);}
+                        else if (keyCode == 57){chr = String.fromCharCode(40);}
+                    _KernelInputQueue.enqueue(chr);
+                    }
+            }
+            else {// all other symbols
+                if(isShifted === false){ // not shifted
+                    if(keyCode == 189){chr = String.fromCharCode(45);} // -
+                    if(keyCode == 187){chr = String.fromCharCode(61);} // =
+                    if(keyCode == 220){chr = String.fromCharCode(95);} // \
+                    if(keyCode == 219){chr = String.fromCharCode(91);} // [
+                    if(keyCode == 221){chr = String.fromCharCode(93);} // ]
+                    if(keyCode == 186){chr = String.fromCharCode(59);} // ;
+                    if(keyCode == 222){chr = String.fromCharCode(39);} // '
+                    if(keyCode == 188){chr = String.fromCharCode(44);} // ,
+                    if(keyCode == 190){chr = String.fromCharCode(46);} // .
+                    if(keyCode == 191){chr = String.fromCharCode(47);} // /
+
+                }
+                else{ // shifted
+                    if(keyCode == 189){chr = String.fromCharCode(95);} // _
+                    if(keyCode == 187){chr = String.fromCharCode(43);} // +
+                    if(keyCode == 220){chr = String.fromCharCode(124);} // |
+                    if(keyCode == 219){chr = String.fromCharCode(123);} // {
+                    if(keyCode == 221){chr = String.fromCharCode(125);} // }
+                    if(keyCode == 186){chr = String.fromCharCode(58);} // :
+                    if(keyCode == 222){chr = String.fromCharCode(34);} // "
+                    if(keyCode == 188){chr = String.fromCharCode(60);} // <
+                    if(keyCode == 190){chr = String.fromCharCode(62);} // >
+                    if(keyCode == 191){chr = String.fromCharCode(63);} // ?
+                }
                 _KernelInputQueue.enqueue(chr);
             }
-            else if ((keyCode == 38) || (keyCode == 40)) {} // up down arrow
-            else if ((keyCode == 8)) {} // backspace
-            else if ((keyCode == 9)) {} //  tab
-            else if ((keyCode >= 33) && (keyCode <= 47) || (keyCode >= 58) && (keyCode <= 64)) {
-                chr =  String.fromCharCode(keyCode); // this probably wont work
-            }
+
+            
         }
     }
     TSOS.DeviceDriverKeyboard = DeviceDriverKeyboard;
