@@ -29,8 +29,11 @@ var TSOS;
             _Kernel.krnTrace("Key code:" + keyCode + " shifted:" + isShifted);
             var chr = "";
             // Check to see if we even want to deal with the key that was pressed.
+            if (keyCode == 8) { // backspace
+                
 
-            if(keyCode == 9){ // check for tab
+            }
+            else if(keyCode == 9){ // check for tab
                 if(_SarcasticMode){ // sarcastically just add 4 spaces
                     chr = String.fromCharCode(32);
                     for(let i=0; i<=4;i++){
