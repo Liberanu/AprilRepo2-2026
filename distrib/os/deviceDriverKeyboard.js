@@ -47,11 +47,18 @@ var TSOS;
                 }
             } // backspace check
             else if(keyCode == 9){ // check for tab
-                chr = String.fromCharCode(32)
-                for(let i=0; i<=4;i++){
-                _KernelInputQueue.enqueue(chr);
+                if(_SarcasticMode){ // sarcastically just add 4 spaces
+                    chr = String.fromCharCode(32);
+                    for(let i=0; i<=4;i++){
+                        _KernelInputQueue.enqueue(chr);
+                    }
                 } // replace this with algorithm to check if only 1 command matches the entered characters
+                else{ //grab the current buffer?
+                    for (var i in autofillList) {
+                        _KernelInputQueue.enqueue(autofillList[i][0]);
+                    }
 
+                }
             }
             else if ((keyCode >= 65) && (keyCode <= 90)) { // letter
                 if (isShifted === true) {
