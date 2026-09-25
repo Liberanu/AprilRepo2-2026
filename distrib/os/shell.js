@@ -57,7 +57,7 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
 
             
-            sc = new TSOS.ShellCommand(this.shellWhatColor, "whatcolor", " - MTG color combo identifier");
+            sc = new TSOS.ShellCommand(this.shellcid, "cid", " - MTG color identity tool (use oracle color codes, [W]hite bl[U]e [B]lack [R]ed [G]reen)");
             this.commandList[this.commandList.length] = sc;
 
             sc = new TSOS.ShellCommand(this.shellEcho, "echo", " - echo.. echo... echo.....");
@@ -293,36 +293,39 @@ var TSOS;
             }
         }    
         
-        shellWhatColor(args) {
+        shellcid(args) {
             if (args.length > 0){
-                args 
-                if (args.includes("w") && args.includes("u") && args.includes("b") && args.includes("r") && args.includes("g")){_StdOut.putText("5 color");}
-                else if (args.includes("u") && args.includes("b") && args.includes("r") && args.includes("g") ){_StdOut.putText("Glint-Eye"); } // -white
-                else if (args.includes("w") && args.includes("b") && args.includes("r") && args.includes("g") ){_StdOut.putText("Dune-Brood");} // -blue
-                else if (args.includes("w") && args.includes("u") && args.includes("r") && args.includes("g") ){_StdOut.putText("Ink-Treader");} // -black
-                else if (args.includes("w") && args.includes("u") && args.includes("b") && args.includes("g") ){_StdOut.putText("Witch-Maw");} // -red
-                else if (args.includes("w") && args.includes("u") && args.includes("b") && args.includes("r") ){_StdOut.putText("Yore-Tiller");} // -green
+                var input = '';
+                for (var i in args){
+                    var input = (input + args[i]);
+                }
+                if (input.includes("w") && input.includes("u") && input.includes("b") && input.includes("r") && input.includes("g")){_StdOut.putText("5 color");}
+                else if (input.includes("u") && input.includes("b") && input.includes("r") && input.includes("g") ){_StdOut.putText("Glint-Eye"); } // -white
+                else if (input.includes("w") && input.includes("b") && input.includes("r") && input.includes("g") ){_StdOut.putText("Dune-Brood");} // -blue
+                else if (input.includes("w") && input.includes("u") && input.includes("r") && input.includes("g") ){_StdOut.putText("Ink-Treader");} // -black
+                else if (input.includes("w") && input.includes("u") && input.includes("b") && input.includes("g") ){_StdOut.putText("Witch-Maw");} // -red
+                else if (input.includes("w") && input.includes("u") && input.includes("b") && input.includes("r") ){_StdOut.putText("Yore-Tiller");} // -green
                 
-                else if (args.includes("g") && args.includes("b") && args.includes("u")){_StdOut.putText("Bant");} // 
-                else if (args.includes("w") && args.includes("b") && args.includes("u")){_StdOut.putText("Esper")} // 
-                else if (args.includes("u") && args.includes("r") && args.includes("b")){_StdOut.putText("Grixis");} //
-                else if (args.includes("g") && args.includes("r") && args.includes("b")){_StdOut.putText("Jund");} //
-                else if (args.includes("w") && args.includes("g") && args.includes("r")){_StdOut.putText("Naya");} //
-                else if (args.includes("r") && args.includes("b") && args.includes("w")){_StdOut.putText("Mardu");} //
-                else if (args.includes("u") && args.includes("g") && args.includes("r")){_StdOut.putText("Temur");} //
-                else if (args.includes("w") && args.includes("g") && args.includes("b")){_StdOut.putText("Abzan");} //
-                else if (args.includes("r") && args.includes("u") && args.includes("w")){_StdOut.putText("Jeskai");} //
-                else if (args.includes("b") && args.includes("u") && args.includes("g")){_StdOut.putText("Sultai");} //
+                else if (input.includes("g") && input.includes("b") && input.includes("u")){_StdOut.putText("Bant");} // 
+                else if (input.includes("w") && input.includes("b") && input.includes("u")){_StdOut.putText("Esper")} // 
+                else if (input.includes("u") && input.includes("r") && input.includes("b")){_StdOut.putText("Grixis");} //
+                else if (input.includes("g") && input.includes("r") && input.includes("b")){_StdOut.putText("Jund");} //
+                else if (input.includes("w") && input.includes("g") && input.includes("r")){_StdOut.putText("Naya");} //
+                else if (input.includes("r") && input.includes("b") && input.includes("w")){_StdOut.putText("Mardu");} //
+                else if (input.includes("u") && input.includes("g") && input.includes("r")){_StdOut.putText("Temur");} //
+                else if (input.includes("w") && input.includes("g") && input.includes("b")){_StdOut.putText("Abzan");} //
+                else if (input.includes("r") && input.includes("u") && input.includes("w")){_StdOut.putText("Jeskai");} //
+                else if (input.includes("b") && input.includes("u") && input.includes("g")){_StdOut.putText("Sultai");} //
                 
-                else if (args.includes("w") && args.includes("u")){_StdOut.putText("Azorious");} //
-                else if (args.includes("w") && args.includes("r")){_StdOut.putText("Boros");} //
-                else if (args.includes("b") && args.includes("u")){_StdOut.putText("Dimir");} //
-                else if (args.includes("g") && args.includes("r")){_StdOut.putText("Gruul");} //
-                else if (args.includes("b") && args.includes("r")){_StdOut.putText("izzet");} //
-                else if (args.includes("w") && args.includes("b")){_StdOut.putText("Orzhov");} //
-                else if (args.includes("b") && args.includes("r")){_StdOut.putText("Rakdos");} //
-                else if (args.includes("w") && args.includes("g")){_StdOut.putText("Selesnya");} //
-                else if (args.includes("u") && args.includes("g")){_StdOut.putText("Simic");} //
+                else if (input.includes("w") && input.includes("u")){_StdOut.putText("Azorious");} //
+                else if (input.includes("w") && input.includes("r")){_StdOut.putText("Boros");} //
+                else if (input.includes("b") && input.includes("u")){_StdOut.putText("Dimir");} //
+                else if (input.includes("g") && input.includes("r")){_StdOut.putText("Gruul");} //
+                else if (input.includes("b") && input.includes("r")){_StdOut.putText("izzet");} //
+                else if (input.includes("w") && input.includes("b")){_StdOut.putText("Orzhov");} //
+                else if (input.includes("b") && input.includes("r")){_StdOut.putText("Rakdos");} //
+                else if (input.includes("w") && input.includes("g")){_StdOut.putText("Selesnya");} //
+                else if (input.includes("u") && input.includes("g")){_StdOut.putText("Simic");} //
                 else _StdOut.putText("unknown color id");
 
             }
