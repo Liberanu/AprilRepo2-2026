@@ -63,7 +63,7 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellEcho, "echo", " - echo.. echo... echo.....");
             this.commandList[this.commandList.length] = sc;
             
-
+            
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             // Display the initial prompt.
@@ -160,7 +160,7 @@ var TSOS;
             if (_SarcasticMode) {
                 _StdOut.putText("Unbelievable. You, [subject name here],");
                 _StdOut.advanceLine();
-                _StdOut.putText("must be the pride of [subject hometown here].");
+                _StdOut.putText("must be the pride of Poughkeepsie.");
             }
             else {
                 _StdOut.putText("Type 'help' for, well... help.");

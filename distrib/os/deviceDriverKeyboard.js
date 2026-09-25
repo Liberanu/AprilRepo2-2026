@@ -54,9 +54,6 @@ var TSOS;
                     }
                 } // replace this with algorithm to check if only 1 command matches the entered characters
                 else{ //grab the current buffer?
-                    for (var i in autofillList) {
-                        _KernelInputQueue.enqueue(autofillList[i][0]);
-                    }
 
                 }
             }
