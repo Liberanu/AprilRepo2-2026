@@ -29,24 +29,8 @@ var TSOS;
             _Kernel.krnTrace("Key code:" + keyCode + " shifted:" + isShifted);
             var chr = "";
             // Check to see if we even want to deal with the key that was pressed.
-            if(keyCode == 8){
-                if (_SarcasticMode){
-                chr = String.fromCharCode(66);
-                _KernelInputQueue.enqueue(chr);
-                chr = String.fromCharCode(65);
-                _KernelInputQueue.enqueue(chr);
-                chr = String.fromCharCode(67);
-                _KernelInputQueue.enqueue(chr);
-                chr = String.fromCharCode(75);
-                _KernelInputQueue.enqueue(chr);
-                chr = String.fromCharCode(32);
-                _KernelInputQueue.enqueue(chr);
-                }
-                else {
-                    //add backspace functionality here
-                }
-            } // backspace check
-            else if(keyCode == 9){ // check for tab
+
+            if(keyCode == 9){ // check for tab
                 if(_SarcasticMode){ // sarcastically just add 4 spaces
                     chr = String.fromCharCode(32);
                     for(let i=0; i<=4;i++){
@@ -69,7 +53,8 @@ var TSOS;
             }
             else if (((keyCode >= 48) && (keyCode <= 57)) || // digits
                 (keyCode == 32) || // space
-                (keyCode == 13)) { // enter
+                (keyCode == 13) || // enter
+                (keyCode == 8)) {  // backspace
                     if (isShifted === false){
                     chr = String.fromCharCode(keyCode);
                     _KernelInputQueue.enqueue(chr);
