@@ -30,6 +30,7 @@ var TSOS;
             var chr = "";
             // Check to see if we even want to deal with the key that was pressed.
             if(keyCode == 8){
+                if (_SarcasticMode){
                 chr = String.fromCharCode(66);
                 _KernelInputQueue.enqueue(chr);
                 chr = String.fromCharCode(65);
@@ -40,6 +41,10 @@ var TSOS;
                 _KernelInputQueue.enqueue(chr);
                 chr = String.fromCharCode(32);
                 _KernelInputQueue.enqueue(chr);
+                }
+                else {
+                    //add backspace functionality here
+                }
             } // backspace check
             else if(keyCode == 9){ // check for tab
                 chr = String.fromCharCode(32)
