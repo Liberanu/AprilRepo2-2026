@@ -38,14 +38,24 @@ namespace TSOS {
                 if (chr === String.fromCharCode(13)) { // the Enter key
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
+                    commandHistory.push(this.buffer);
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
                     this.buffer = "";
                 }
-                else if (chr === String.fromCharCode(8)){
+                else if (chr === String.fromCharCode(8)){ //check for backspace key
                     this.buffer = this.buffer.substring(0, this.buffer.length - 1);
                 }
-                 else {
+                else if (chr === String.fromCharCode(40)){ //check for down arrow key
+                    if (commandHistory.length > 0){
+                        this.buffer = commandHistory.shift() || "";
+                    }
+                }
+                else if (chr === String.fromCharCode(38)){ //check for up arrow key
+                    if (commandHistory.length > 0){
+                        this.buffer = commandHistory.pop() || "";
+                    }
+                else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
                     this.putText(chr);
