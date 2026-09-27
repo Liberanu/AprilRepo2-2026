@@ -43,7 +43,18 @@ var TSOS;
                     this.buffer = "";
                 }
                 else if (chr === String.fromCharCode(8)) { // Backspace is ACII code 8
+                    //remove the last character from the buffer
                     this.buffer = this.buffer.substring(0, this.buffer.length - 1);
+                    //find the x position, y position, width and height of the last character in the buffer
+                    this.currentXPosition = this.currentXPosition - _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length - 1));
+                    var x = this.currentXPosition 
+                    var y = this.currentYPosition - this.currentFontSize ;
+                    var w = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length - 1));
+                    var h = 18 //tall enough to erase the font size
+
+                    // erase the contents of the canvas for the last character added to the canvas
+                    _DrawingContext.clearRect(x,y,w,h);
+
                 }
                 else {
                     // This is a "normal" character, so ...
