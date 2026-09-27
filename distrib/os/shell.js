@@ -277,7 +277,7 @@ var TSOS;
                 _StdOut.putText("wouldnt you like to know?");
             }
             else{
-                _StdOut.putText("you are in a virtual machine, running a"You are in a computer simulation, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer. virtual OS, on a virtual computer, in the 'real' world.");
+                _StdOut.putText("you are in a virtual machine, running a virtual OS, in the 'real' world.");
             }
         }
 
