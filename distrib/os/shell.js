@@ -273,7 +273,12 @@ var TSOS;
             _StdOut.putText("It is " + now.toDateString() + " at " + now.toLocaleTimeString());
         }
         shellWhereami(args) {
-            _StdOut.putText("Wouldn't you like to know?");
+            if(_sarcasticMode){
+                _StdOut.putText("wouldnt you like to know?");
+            }
+            else{
+                _StdOut.putText("you are in a virtual machine, running a"You are in a computer simulation, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer, in a computer. virtual OS, on a virtual computer, in the 'real' world.");
+            }
         }
 
         shellStatus(args) {
