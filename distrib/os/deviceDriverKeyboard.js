@@ -40,10 +40,22 @@ var TSOS;
             var chr = "";
             // Check to see if we even want to deal with the key that was pressed.
             if (keyCode == 8) { // backspace
+                if(_SarcasticMode){
+                    _KernalInputQueue.enqueue('b');
+                    _KernalInputQueue.enqueue('a');
+                    _KernalInputQueue.enqueue('c');
+                    _KernalInputQueue.enqueue('k');
+                    _KernalInputQueue.enqueue('s');
+                    _KernalInputQueue.enqueue('p');
+                    _KernalInputQueue.enqueue('a');
+                    _KernalInputQueue.enqueue('c');
+                    _KernalInputQueue.enqueue('e');
+                }
+                else{ //normally handle backspace
                 // adds backspace to the queue (where it checks that its a backspace and removes the last character from the buffer)
                 _KernelInputQueue.enqueue(String.fromCharCode(keyCode));
+                }
             
-                
             }
             else if(keyCode == 9){ // check for tab
                 if(_SarcasticMode){ // sarcastically just add 4 spaces
