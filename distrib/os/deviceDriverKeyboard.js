@@ -22,6 +22,16 @@ var TSOS;
             this.status = "loaded";
             // More?
         }
+        krnKbdEditLineDisplay(newLine){ //UNTESTED CODE NEED ERASE / BACKSPACE FUNCTIONALITY
+            // delete the current line
+            for(let i=0; i<_OsShell.buffer.length;i++){
+                _StdOut.putText("\b \b");
+            }
+            // display the new line
+            _StdOut.putText(newLine); 
+        
+        }  // THIS DOES NOT WORK ----------------------
+
         krnKbdDispatchKeyPress(params) {
             // Parse the params.  TODO: Check that the params are valid and osTrapError if not.
             var keyCode = params[0];
@@ -30,7 +40,7 @@ var TSOS;
             var chr = "";
             // Check to see if we even want to deal with the key that was pressed.
             if (keyCode == 8) { // backspace
-                
+                //add code
 
             }
             else if(keyCode == 9){ // check for tab

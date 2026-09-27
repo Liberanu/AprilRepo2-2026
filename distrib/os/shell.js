@@ -63,10 +63,15 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellEcho, "echo", " - echo.. echo... echo.....");
             this.commandList[this.commandList.length] = sc;
             
-            
-            // ps  - list the running processes and their IDs
-            // kill <id> - kills the specified process id.
-            // Display the initial prompt.
+            sc = new TSOS.ShellCommand(this.shellLoad, "load", " - loads a program into memory");
+            this.commandList[this.commandList.length] = sc; //unimplemented
+
+            sc = new TSOS.ShellCommand(this.shellRun, "run", " - runs a program in memory");
+            this.commandList[this.commandList.length] = sc; //unimplemented
+
+            sc = new TSOS.ShellCommand(this.validate , "validate", " - validates a program in memory");
+            this.commandList[this.commandList.length] = sc; //unimplemented
+    
             this.putPrompt();
         }
         putPrompt() {
