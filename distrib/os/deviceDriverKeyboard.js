@@ -64,7 +64,9 @@ var TSOS;
                         _KernelInputQueue.enqueue(chr);
                     }
                 } // replace this with algorithm to check if only 1 command matches the entered characters
-                else{ //grab the current buffer?
+                else{ 
+                // adds tab to the queue (where it will run a check of the buffer to see if it matches any commands and if so, will autocomplete the command)
+                    _KernelInputQueue.enqueue(String.fromCharCode(keyCode));
 
                 }
             }
