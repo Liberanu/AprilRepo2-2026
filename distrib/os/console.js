@@ -44,7 +44,7 @@ var TSOS;
                 }
                 else if (chr === String.fromCharCode(8)) { // Backspace is ACII code 8
                     this.buffer = this.buffer.substring(0, this.buffer.length - 1);
-                } 
+                }
                 else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...

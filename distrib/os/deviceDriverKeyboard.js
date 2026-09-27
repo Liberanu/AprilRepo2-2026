@@ -40,7 +40,11 @@ var TSOS;
             var chr = "";
             // Check to see if we even want to deal with the key that was pressed.
             if (keyCode == 8) { // backspace
-                //add code
+                // add code to remove last character from buffer and display
+                _KernelInputQueue.enqueue(String.fromCharCode(keyCode));
+                 this.currentXPosition -= _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length - 1));
+                _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - this.currentFontSize, _DrawingContext.measureText(this.currentFont, this.currentFontSize, " "), this.currentFontSize);
+                
 
             }
             else if(keyCode == 9){ // check for tab
