@@ -341,9 +341,9 @@ var TSOS;
             }
             else {_StdOut.putText("invalid arguement");}  
     }
-
-
-
+    static getCommandList(){
+        return this.commandList;
+    }
     }
     TSOS.Shell = Shell;
 })(TSOS || (TSOS = {}));

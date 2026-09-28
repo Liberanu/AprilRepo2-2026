@@ -38,6 +38,7 @@ var TSOS;
                 if (chr === String.fromCharCode(13)) { // the Enter key
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
+                    commandHistory.push(this.buffer); //add the command to the command history
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
                     this.buffer = "";
@@ -45,21 +46,38 @@ var TSOS;
                 else if (chr === String.fromCharCode(8)) { // Backspace is ACII code 8
         
                     //find the x position, y position, width and height of the last character in the buffer
-                    
                     var x = this.currentXPosition - _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length-1));
                     var y = this.currentYPosition - this.currentFontSize ;
-                    var w = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length-1));
-                    var h = this.currentFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) + _FontHeightMargin;
+                    var width = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length-1));
+                    var height = this.currentFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) + _FontHeightMargin;
 
                     //move the current x position back to the last character in the buffer
                     this.currentXPosition = this.currentXPosition - _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length-1));
                     //remove the last character from the buffer
                     this.buffer = this.buffer.substring(0, this.buffer.length - 1);
                     // erase the contents of the canvas for the last character added to the canvas
-                    _DrawingContext.clearRect(x,y,w,h);
+                    _DrawingContext.clearRect(x,y,width,height);
 
                 }
-                else {
+                else if(chr === String.fromCharCode(9)) { // Tab is ASCII code 9
+                    var temp = autoCompleteCommand(this.buffer, getCommandList());
+                }
+                else if(chr === String.fromCharCode(38)) { // Up arrow is ASCII code 38
+                    if(commandHistoryIndex < commandHistory.length - 1) {
+                        commandHistoryIndex++;
+                        this.buffer = commandHistory[commandHistoryIndex];
+                        //call something to clear the current line and display the new line
+
+                    }
+                }
+                else if(chr === String.fromCharCode(40)) { // Down arrow is ASCII code 40
+                    if(commandHistoryIndex > 0) {
+                        commandHistoryIndex--;
+                        this.buffer = commandHistory[commandHistoryIndex];
+                        //call something to clear the current line and display the new line
+                    }
+                }
+                else{
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...
                     this.putText(chr);
