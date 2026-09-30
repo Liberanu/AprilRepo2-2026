@@ -47,6 +47,7 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
 
+            
             sc = new TSOS.ShellCommand(this.shellDate, "date", " - tells you the date");
             this.commandList[this.commandList.length] = sc;
 
