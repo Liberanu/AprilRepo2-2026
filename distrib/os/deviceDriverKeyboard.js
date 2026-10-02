@@ -1,3 +1,4 @@
+"use strict";
 /* ----------------------------------
    DeviceDriverKeyboard.ts
 
@@ -22,16 +23,6 @@ var TSOS;
             this.status = "loaded";
             // More?
         }
-        krnKbdEditLineDisplay(newLine){ //UNTESTED CODE NEED ERASE / BACKSPACE FUNCTIONALITY
-            // delete the current line
-            for(let i=0; i<_OsShell.buffer.length;i++){
-                _StdOut.putText("\b \b");
-            }
-            // display the new line
-            _StdOut.putText(newLine); 
-        
-        }  // THIS DOES NOT WORK ----------------------
-
         krnKbdDispatchKeyPress(params) {
             // Parse the params.  TODO: Check that the params are valid and osTrapError if not.
             var keyCode = params[0];
@@ -40,34 +31,49 @@ var TSOS;
             var chr = "";
             // Check to see if we even want to deal with the key that was pressed.
             if (keyCode == 8) { // backspace
-                if(_SarcasticMode){
-                    _KernalInputQueue.enqueue('b');
-                    _KernalInputQueue.enqueue('a');
-                    _KernalInputQueue.enqueue('c');
-                    _KernalInputQueue.enqueue('k');
-                    _KernalInputQueue.enqueue('s');
-                    _KernalInputQueue.enqueue('p');
-                    _KernalInputQueue.enqueue('a');
-                    _KernalInputQueue.enqueue('c');
-                    _KernalInputQueue.enqueue('e');
+                if (_SarcasticMode) {
+                    _KernelInputQueue.enqueue('b');
+                    _KernelInputQueue.enqueue('a');
+                    _KernelInputQueue.enqueue('c');
+                    _KernelInputQueue.enqueue('k');
+                    _KernelInputQueue.enqueue('s');
+                    _KernelInputQueue.enqueue('p');
+                    _KernelInputQueue.enqueue('a');
+                    _KernelInputQueue.enqueue('c');
+                    _KernelInputQueue.enqueue('e');
                 }
-                else{ //normally handle backspace
-                // adds backspace to the queue (where it checks that its a backspace and removes the last character from the buffer)
-                _KernelInputQueue.enqueue(String.fromCharCode(keyCode));
+                else { //normally handle backspace
+                    // adds backspace to the queue (where it checks that its a backspace and removes the last character from the buffer)
+                    _KernelInputQueue.enqueue(String.fromCharCode(keyCode));
                 }
-            
             }
-            else if(keyCode == 9){ // check for tab
-                if(_SarcasticMode){ // sarcastically just add 4 spaces
+            else if (keyCode == 9) { // check for tab
+                if (_SarcasticMode) { // sarcastically just add 4 spaces
                     chr = String.fromCharCode(32);
-                    for(let i=0; i<=4;i++){
+                    for (let i = 0; i <= 4; i++) {
                         _KernelInputQueue.enqueue(chr);
                     }
                 } // replace this with algorithm to check if only 1 command matches the entered characters
-                else{ 
-                // adds tab to the queue (where it will run a check of the buffer to see if it matches any commands and if so, will autocomplete the command)
+                else {
+                    // adds tab to the queue (where it will run a check of the buffer to see if it matches any commands and if so, will autocomplete the command)
                     _KernelInputQueue.enqueue(String.fromCharCode(keyCode));
-
+                }
+            }
+            else if ((keyCode == 38) || (keyCode == 40)) { // check for up and down arrows
+                if (_SarcasticMode) { // sarcastically just add letters
+                    if (keyCode == 38) {
+                        _KernelInputQueue.enqueue('u');
+                        _KernelInputQueue.enqueue('p');
+                    }
+                    else {
+                        _KernelInputQueue.enqueue('d');
+                        _KernelInputQueue.enqueue('o');
+                        _KernelInputQueue.enqueue('w');
+                        _KernelInputQueue.enqueue('n');
+                    }
+                }
+                else { // normally handle up and down arrows
+                    _KernelInputQueue.enqueue(String.fromCharCode(keyCode));
                 }
             }
             else if ((keyCode >= 65) && (keyCode <= 90)) { // letter
@@ -82,56 +88,119 @@ var TSOS;
             }
             else if (((keyCode >= 48) && (keyCode <= 57)) || // digits
                 (keyCode == 32) || // space
+                (keyCode == 13)) { // enter
+                chr = String.fromCharCode(keyCode);
+                _KernelInputQueue.enqueue(chr);
+            }
+            else if (((keyCode >= 48) && (keyCode <= 57)) || // digits
+                (keyCode == 32) || // space
                 (keyCode == 13) || // enter
-                (keyCode == 8)) {  // backspace
-                    if (isShifted === false){
+                (keyCode == 8)) { // backspace
+                if (isShifted === false) {
                     chr = String.fromCharCode(keyCode);
                     _KernelInputQueue.enqueue(chr);
-                    }
-                    else{
-                        if (keyCode == 48){chr = String.fromCharCode(41);}
-                        else if (keyCode == 49){chr = String.fromCharCode(33);}
-                        else if (keyCode == 50){chr = String.fromCharCode(64);}
-                        else if (keyCode == 51){chr = String.fromCharCode(35);}
-                        else if (keyCode == 52){chr = String.fromCharCode(36);}
-                        else if (keyCode == 53){chr = String.fromCharCode(37);}
-                        else if (keyCode == 54){chr = String.fromCharCode(94);}
-                        else if (keyCode == 55){chr = String.fromCharCode(38);}
-                        else if (keyCode == 56){chr = String.fromCharCode(42);}
-                        else if (keyCode == 57){chr = String.fromCharCode(40);}
-                    _KernelInputQueue.enqueue(chr);
-                    }
-            }
-            else {// all other symbols
-                if(isShifted === false){ // not shifted
-                    if(keyCode == 189){chr = String.fromCharCode(45);} // -
-                    if(keyCode == 187){chr = String.fromCharCode(61);} // =
-                    if(keyCode == 220){chr = String.fromCharCode(95);} // \
-                    if(keyCode == 219){chr = String.fromCharCode(91);} // [
-                    if(keyCode == 221){chr = String.fromCharCode(93);} // ]
-                    if(keyCode == 186){chr = String.fromCharCode(59);} // ;
-                    if(keyCode == 222){chr = String.fromCharCode(39);} // '
-                    if(keyCode == 188){chr = String.fromCharCode(44);} // ,
-                    if(keyCode == 190){chr = String.fromCharCode(46);} // .
-                    if(keyCode == 191){chr = String.fromCharCode(47);} // /
-
                 }
-                else{ // shifted
-                    if(keyCode == 189){chr = String.fromCharCode(95);} // _
-                    if(keyCode == 187){chr = String.fromCharCode(43);} // +
-                    if(keyCode == 220){chr = String.fromCharCode(124);} // |
-                    if(keyCode == 219){chr = String.fromCharCode(123);} // {
-                    if(keyCode == 221){chr = String.fromCharCode(125);} // }
-                    if(keyCode == 186){chr = String.fromCharCode(58);} // :
-                    if(keyCode == 222){chr = String.fromCharCode(34);} // "
-                    if(keyCode == 188){chr = String.fromCharCode(60);} // <
-                    if(keyCode == 190){chr = String.fromCharCode(62);} // >
-                    if(keyCode == 191){chr = String.fromCharCode(63);} // ?
+                else {
+                    if (keyCode == 48) {
+                        chr = String.fromCharCode(41);
+                    }
+                    else if (keyCode == 49) {
+                        chr = String.fromCharCode(33);
+                    }
+                    else if (keyCode == 50) {
+                        chr = String.fromCharCode(64);
+                    }
+                    else if (keyCode == 51) {
+                        chr = String.fromCharCode(35);
+                    }
+                    else if (keyCode == 52) {
+                        chr = String.fromCharCode(36);
+                    }
+                    else if (keyCode == 53) {
+                        chr = String.fromCharCode(37);
+                    }
+                    else if (keyCode == 54) {
+                        chr = String.fromCharCode(94);
+                    }
+                    else if (keyCode == 55) {
+                        chr = String.fromCharCode(38);
+                    }
+                    else if (keyCode == 56) {
+                        chr = String.fromCharCode(42);
+                    }
+                    else if (keyCode == 57) {
+                        chr = String.fromCharCode(40);
+                    }
+                    _KernelInputQueue.enqueue(chr);
+                }
+            }
+            else { // all other symbols
+                if (isShifted === false) { // not shifted
+                    if (keyCode == 189) {
+                        chr = String.fromCharCode(45);
+                    } // -
+                    if (keyCode == 187) {
+                        chr = String.fromCharCode(61);
+                    } // =
+                    if (keyCode == 220) {
+                        chr = String.fromCharCode(95);
+                    } // \
+                    if (keyCode == 219) {
+                        chr = String.fromCharCode(91);
+                    } // [
+                    if (keyCode == 221) {
+                        chr = String.fromCharCode(93);
+                    } // ]
+                    if (keyCode == 186) {
+                        chr = String.fromCharCode(59);
+                    } // ;
+                    if (keyCode == 222) {
+                        chr = String.fromCharCode(39);
+                    } // '
+                    if (keyCode == 188) {
+                        chr = String.fromCharCode(44);
+                    } // ,
+                    if (keyCode == 190) {
+                        chr = String.fromCharCode(46);
+                    } // .
+                    if (keyCode == 191) {
+                        chr = String.fromCharCode(47);
+                    } // /
+                }
+                else { // shifted
+                    if (keyCode == 189) {
+                        chr = String.fromCharCode(95);
+                    } // _
+                    if (keyCode == 187) {
+                        chr = String.fromCharCode(43);
+                    } // +
+                    if (keyCode == 220) {
+                        chr = String.fromCharCode(124);
+                    } // |
+                    if (keyCode == 219) {
+                        chr = String.fromCharCode(123);
+                    } // {
+                    if (keyCode == 221) {
+                        chr = String.fromCharCode(125);
+                    } // }
+                    if (keyCode == 186) {
+                        chr = String.fromCharCode(58);
+                    } // :
+                    if (keyCode == 222) {
+                        chr = String.fromCharCode(34);
+                    } // "
+                    if (keyCode == 188) {
+                        chr = String.fromCharCode(60);
+                    } // <
+                    if (keyCode == 190) {
+                        chr = String.fromCharCode(62);
+                    } // >
+                    if (keyCode == 191) {
+                        chr = String.fromCharCode(63);
+                    } // ?
                 }
                 _KernelInputQueue.enqueue(chr);
             }
-
-            
         }
     }
     TSOS.DeviceDriverKeyboard = DeviceDriverKeyboard;

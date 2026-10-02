@@ -1,3 +1,4 @@
+"use strict";
 /* ------------
    Globals.ts
 
@@ -10,18 +11,18 @@
 //
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
 //
-const APP_NAME = "TempNameOS"; // 'cause Bob and I were at a loss for a better name.
+const APP_NAME = "TempnameOS"; // 'cause Bob and I were at a loss for a better name.
 const APP_VERSION = "1.0"; // What did you expect?
 const CPU_CLOCK_INTERVAL = 100; // This is in ms (milliseconds) so 1000 = 1 second.
 const TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt priority).
 // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 const KEYBOARD_IRQ = 1;
-var commandHistory = []
-var commandHistoryIndex = 0
 //
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
 //
+var commandHistory = []; // Array to hold the command history
+var commandHistoryIndex = 0;
 var _CPU; // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 var _OSclock = 0; // Page 23.
 var _Mode = 0; // (currently unused)  0 = Kernel Mode, 1 = User Mode.  See page 21.

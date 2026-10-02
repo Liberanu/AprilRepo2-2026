@@ -1,3 +1,4 @@
+"use strict";
 /* --------
    Utils.ts
 
@@ -42,39 +43,40 @@ var TSOS;
             }
             return retVal;
         }
-        //input: string 
-        //data: array of strings to compare input to
         static autoCompleteCommand(input, data) {
             if (input.value.length == input.selectionStart && input.value.length == input.selectionEnd) {
-                var candidates = []
+                var candidates = [];
                 // filter data to find only strings that start with existing value
-                for (var i=0; i < data.length; i++) {
-                if (data[i].indexOf(input.value) == 0 && data[i].length > input.value.length)
-                    candidates.push(data[i])
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].indexOf(input.value) == 0 && data[i].length > input.value.length)
+                        candidates.push(data[i]);
                 }
-
                 if (candidates.length > 0) {
-                // some candidates for autocompletion are found
-                if (candidates.length == 1) input.value = candidates[0]
-                else input.value = longestInCommon(candidates, input.value.length)
-                return true
+                    // some candidates for autocompletion are found
+                    if (candidates.length == 1)
+                        input.value = candidates[0];
+                    else
+                        input.value = Utils.longestInCommon(candidates, input.value.length);
+                    return true;
                 }
             }
-            return false
+            return false;
         }
         static longestInCommon(Candidates, index) {
-            var i, ch, memo
+            var i, ch, memo;
             do {
-                memo = null
-                for (i=0; i < candidates.length; i++) {
-                ch = candidates[i].charAt(index)
-                if (!ch) break
-                if (!memo) memo = ch
-                else if (ch != memo) break
+                memo = null;
+                for (i = 0; i < Candidates.length; i++) {
+                    ch = Candidates[i].charAt(index);
+                    if (!ch)
+                        break;
+                    if (!memo)
+                        memo = ch;
+                    else if (ch != memo)
+                        break;
                 }
-            } while (i == candidates.length && ++index)
-
-            return candidates[0].slice(0, index)
+            } while (i == Candidates.length && index++);
+            return Candidates[0].slice(0, index);
         }
     }
     TSOS.Utils = Utils;

@@ -1,3 +1,4 @@
+"use strict";
 /* ------------
    Shell.ts
 
@@ -12,9 +13,9 @@ var TSOS;
     class Shell {
         // Properties
         promptStr = ">";
-        statusStr = "welcome"
+        statusStr = "welcome";
         commandList = [];
-        curses = "[fuck],[shit],[shpx],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
+        curses = "[fuck],[shit],[bitch],[phag],[pbpxfhpxre],[zbgureshpxre],[gvgf]";
         apologies = "[sorry]";
         constructor() {
         }
@@ -26,7 +27,7 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellVer, "ver", "- Displays the current version data.");
             this.commandList[this.commandList.length] = sc;
             // help
-            sc = new TSOS.ShellCommand(this.shellHelp, "help", "- This is the help command. Seek help.");
+            sc = new TSOS.ShellCommand(this.shellHelp, "help", "- This is the help command");
             this.commandList[this.commandList.length] = sc;
             // shutdown
             sc = new TSOS.ShellCommand(this.shellShutdown, "shutdown", "- Shuts down the virtual OS but leaves the underlying host / hardware simulation running.");
@@ -46,33 +47,23 @@ var TSOS;
             // prompt <string>
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
-
-            
-            sc = new TSOS.ShellCommand(this.shellDate, "date", " - tells you the date");
+            sc = new TSOS.ShellCommand(this.shellDate, "Date", "- tells the current date and time");
             this.commandList[this.commandList.length] = sc;
-
-            sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", " - where are you");
+            sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "- tells you where you are");
             this.commandList[this.commandList.length] = sc;
-
-            sc = new TSOS.ShellCommand(this.shellStatus, "status", " - changes the status");
+            sc = new TSOS.ShellCommand(this.shellStatus, "status", "- changes the status");
             this.commandList[this.commandList.length] = sc;
-
-            
-            sc = new TSOS.ShellCommand(this.shellcid, "cid", " - MTG color identity tool (use oracle color codes, [W]hite bl[U]e [B]lack [R]ed [G]reen)");
+            sc = new TSOS.ShellCommand(this.shellcid, "cid", "- Magic Color ID tool (use WUBRG)");
             this.commandList[this.commandList.length] = sc;
-
-            sc = new TSOS.ShellCommand(this.shellEcho, "echo", " - echo.. echo... echo.....");
+            sc = new TSOS.ShellCommand(this.shellload, "load", "- load program");
             this.commandList[this.commandList.length] = sc;
-            
-            sc = new TSOS.ShellCommand(this.shellLoad, "load", " - loads a program into memory");
-            this.commandList[this.commandList.length] = sc; //unimplemented
-
-            sc = new TSOS.ShellCommand(this.shellRun, "run", " - runs a program in memory");
-            this.commandList[this.commandList.length] = sc; //unimplemented
-
-            sc = new TSOS.ShellCommand(this.validate , "validate", " - validates a program in memory");
-            this.commandList[this.commandList.length] = sc; //unimplemented
-    
+            sc = new TSOS.ShellCommand(this.shellrun, "run", "- run program");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellvalidate, "validate", "- validate current program input");
+            this.commandList[this.commandList.length] = sc;
+            // ps  - list the running processes and their IDs
+            // kill <id> - kills the specified process id.
+            // Display the initial prompt.
             this.putPrompt();
         }
         putPrompt() {
@@ -166,7 +157,7 @@ var TSOS;
             if (_SarcasticMode) {
                 _StdOut.putText("Unbelievable. You, [subject name here],");
                 _StdOut.advanceLine();
-                _StdOut.putText("must be the pride of Poughkeepsie.");
+                _StdOut.putText("must be the pride of [subject hometown here].");
             }
             else {
                 _StdOut.putText("Type 'help' for, well... help.");
@@ -274,78 +265,128 @@ var TSOS;
             _StdOut.putText("It is " + now.toDateString() + " at " + now.toLocaleTimeString());
         }
         shellWhereami(args) {
-            if(_sarcasticMode){
+            if (_SarcasticMode) {
                 _StdOut.putText("wouldnt you like to know?");
             }
-            else{
+            else {
                 _StdOut.putText("you are in a virtual machine, running a virtual OS, in the 'real' world.");
             }
         }
-
         shellStatus(args) {
-            if (args.length > 0){
-                statusElement.textContent =("Current status: " + args);
+            if (args.length > 0) {
+                statusElement.textContent = ("Current status: " + args);
             }
         }
-        shellEcho(args){
-            if (args.length > 0){
-                var sentence = ''
-
-            for (var i in args){
-                var sentence = (sentence + args[i] + ' ');
+        shellEcho(args) {
+            if (args.length > 0) {
+                var sentence = '';
+                for (var i in args) {
+                    var sentence = (sentence + args[i] + ' ');
                 }
-                if(_SarcasticMode){ //sarcastic echo
+                if (_SarcasticMode) { //sarcastic echo
                     _StdOut.putText(">" + "echo " + sentence); //TODO maybe get this to print the actual prompt, but it could cause confusion
                 }
-                else{
+                else {
                     _StdOut.putText(sentence);
                 }
-                
             }
-        }    
-        
+        }
         shellcid(args) {
-            if (args.length > 0){
+            if (args.length > 0) {
                 var input = '';
-                for (var i in args){
+                for (var i in args) {
                     var input = (input + args[i]);
                 }
-                if (input.includes("w") && input.includes("u") && input.includes("b") && input.includes("r") && input.includes("g")){_StdOut.putText("5 color");}
-                else if (input.includes("u") && input.includes("b") && input.includes("r") && input.includes("g") ){_StdOut.putText("Glint-Eye"); } // -white
-                else if (input.includes("w") && input.includes("b") && input.includes("r") && input.includes("g") ){_StdOut.putText("Dune-Brood");} // -blue
-                else if (input.includes("w") && input.includes("u") && input.includes("r") && input.includes("g") ){_StdOut.putText("Ink-Treader");} // -black
-                else if (input.includes("w") && input.includes("u") && input.includes("b") && input.includes("g") ){_StdOut.putText("Witch-Maw");} // -red
-                else if (input.includes("w") && input.includes("u") && input.includes("b") && input.includes("r") ){_StdOut.putText("Yore-Tiller");} // -green
-                
-                else if (input.includes("g") && input.includes("b") && input.includes("u")){_StdOut.putText("Bant");} // 
-                else if (input.includes("w") && input.includes("b") && input.includes("u")){_StdOut.putText("Esper")} // 
-                else if (input.includes("u") && input.includes("r") && input.includes("b")){_StdOut.putText("Grixis");} //
-                else if (input.includes("g") && input.includes("r") && input.includes("b")){_StdOut.putText("Jund");} //
-                else if (input.includes("w") && input.includes("g") && input.includes("r")){_StdOut.putText("Naya");} //
-                else if (input.includes("r") && input.includes("b") && input.includes("w")){_StdOut.putText("Mardu");} //
-                else if (input.includes("u") && input.includes("g") && input.includes("r")){_StdOut.putText("Temur");} //
-                else if (input.includes("w") && input.includes("g") && input.includes("b")){_StdOut.putText("Abzan");} //
-                else if (input.includes("r") && input.includes("u") && input.includes("w")){_StdOut.putText("Jeskai");} //
-                else if (input.includes("b") && input.includes("u") && input.includes("g")){_StdOut.putText("Sultai");} //
-                
-                else if (input.includes("w") && input.includes("u")){_StdOut.putText("Azorious");} //
-                else if (input.includes("w") && input.includes("r")){_StdOut.putText("Boros");} //
-                else if (input.includes("b") && input.includes("u")){_StdOut.putText("Dimir");} //
-                else if (input.includes("g") && input.includes("r")){_StdOut.putText("Gruul");} //
-                else if (input.includes("b") && input.includes("r")){_StdOut.putText("izzet");} //
-                else if (input.includes("w") && input.includes("b")){_StdOut.putText("Orzhov");} //
-                else if (input.includes("b") && input.includes("r")){_StdOut.putText("Rakdos");} //
-                else if (input.includes("w") && input.includes("g")){_StdOut.putText("Selesnya");} //
-                else if (input.includes("u") && input.includes("g")){_StdOut.putText("Simic");} //
-                else _StdOut.putText("unknown color id");
-
+                if (input.includes("w") && input.includes("u") && input.includes("b") && input.includes("r") && input.includes("g")) {
+                    _StdOut.putText("5 color");
+                }
+                else if (input.includes("u") && input.includes("b") && input.includes("r") && input.includes("g")) {
+                    _StdOut.putText("Glint-Eye");
+                } // -white
+                else if (input.includes("w") && input.includes("b") && input.includes("r") && input.includes("g")) {
+                    _StdOut.putText("Dune-Brood");
+                } // -blue
+                else if (input.includes("w") && input.includes("u") && input.includes("r") && input.includes("g")) {
+                    _StdOut.putText("Ink-Treader");
+                } // -black
+                else if (input.includes("w") && input.includes("u") && input.includes("b") && input.includes("g")) {
+                    _StdOut.putText("Witch-Maw");
+                } // -red
+                else if (input.includes("w") && input.includes("u") && input.includes("b") && input.includes("r")) {
+                    _StdOut.putText("Yore-Tiller");
+                } // -green
+                else if (input.includes("g") && input.includes("b") && input.includes("u")) {
+                    _StdOut.putText("Bant");
+                } // 
+                else if (input.includes("w") && input.includes("b") && input.includes("u")) {
+                    _StdOut.putText("Esper");
+                } // 
+                else if (input.includes("u") && input.includes("r") && input.includes("b")) {
+                    _StdOut.putText("Grixis");
+                } //
+                else if (input.includes("g") && input.includes("r") && input.includes("b")) {
+                    _StdOut.putText("Jund");
+                } //
+                else if (input.includes("w") && input.includes("g") && input.includes("r")) {
+                    _StdOut.putText("Naya");
+                } //
+                else if (input.includes("r") && input.includes("b") && input.includes("w")) {
+                    _StdOut.putText("Mardu");
+                } //
+                else if (input.includes("u") && input.includes("g") && input.includes("r")) {
+                    _StdOut.putText("Temur");
+                } //
+                else if (input.includes("w") && input.includes("g") && input.includes("b")) {
+                    _StdOut.putText("Abzan");
+                } //
+                else if (input.includes("r") && input.includes("u") && input.includes("w")) {
+                    _StdOut.putText("Jeskai");
+                } //
+                else if (input.includes("b") && input.includes("u") && input.includes("g")) {
+                    _StdOut.putText("Sultai");
+                } //
+                else if (input.includes("w") && input.includes("u")) {
+                    _StdOut.putText("Azorious");
+                } //
+                else if (input.includes("w") && input.includes("r")) {
+                    _StdOut.putText("Boros");
+                } //
+                else if (input.includes("b") && input.includes("u")) {
+                    _StdOut.putText("Dimir");
+                } //
+                else if (input.includes("g") && input.includes("r")) {
+                    _StdOut.putText("Gruul");
+                } //
+                else if (input.includes("b") && input.includes("r")) {
+                    _StdOut.putText("izzet");
+                } //
+                else if (input.includes("w") && input.includes("b")) {
+                    _StdOut.putText("Orzhov");
+                } //
+                else if (input.includes("b") && input.includes("r")) {
+                    _StdOut.putText("Rakdos");
+                } //
+                else if (input.includes("w") && input.includes("g")) {
+                    _StdOut.putText("Selesnya");
+                } //
+                else if (input.includes("u") && input.includes("g")) {
+                    _StdOut.putText("Simic");
+                } //
+                else
+                    _StdOut.putText("unknown color id");
             }
-            else {_StdOut.putText("invalid arguement");}  
-    }
-    static getCommandList(){
-        return this.commandList;
-    }
+            else {
+                _StdOut.putText("invalid arguement");
+            }
+        }
+        getCommandList() {
+            return this.commandList;
+        }
+        run() {
+        }
+        load() {
+        }
     }
     TSOS.Shell = Shell;
 })(TSOS || (TSOS = {}));
-//# sourceMappingURL=shell.js.maps
+//# sourceMappingURL=shell.js.map

@@ -65,6 +65,23 @@ namespace TSOS {
 
                 }
             }
+            else if ((keyCode == 38) || (keyCode == 40)) { // check for up and down arrows
+                if(_SarcasticMode){ // sarcastically just add letters
+                    if(keyCode == 38){
+                        _KernelInputQueue.enqueue('u');
+                        _KernelInputQueue.enqueue('p');
+                    }
+                    else{
+                        _KernelInputQueue.enqueue('d');
+                        _KernelInputQueue.enqueue('o');
+                        _KernelInputQueue.enqueue('w');
+                        _KernelInputQueue.enqueue('n');
+                    }
+                }
+                else{ // normally handle up and down arrows
+                    _KernelInputQueue.enqueue(String.fromCharCode(keyCode));
+                }
+            }
             else if ((keyCode >= 65) && (keyCode <= 90)) { // letter
                 if (isShifted === true) { 
                     chr = String.fromCharCode(keyCode); // Uppercase A-Z
