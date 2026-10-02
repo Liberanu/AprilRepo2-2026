@@ -64,30 +64,34 @@ var TSOS;
                     _DrawingContext.clearRect(x, y, width, height);
                 }
                 else if (chr === String.fromCharCode(9)) { // Tab is ASCII code 9
-                    // var temp = Utils.autoCompleteCommand(this.buffer, Shell.getCommandList());
-                    //var test = ["t", "h", "e"];
-                    //for(var i in test){
-                    //        _KernelInputQueue.enqueue(i);
-                    //    }
-                    _KernelInputQueue.enqueue("t");
+                    //var temp = Utils.autoCompleteCommand(this.buffer, Shell.getCommandList());
+                    var test = ["t", "h", "e"];
+                    for (var i in test) {
+                        _KernelInputQueue.enqueue(test[i]);
+                    }
                 }
                 else if (chr === String.fromCharCode(40)) { //check for down arrow key
-                    //if (commandHistory.length > 0){
-                    //    this.buffer = commandHistory.shift() || "";
-                    //}
-                    _KernelInputQueue.enqueue("d");
+                    if (commandHistory.length > 0) {
+                        this.buffer = commandHistory.shift() || "";
+                        commandHistoryIndex--;
+                        this.clearLine();
+                        var TextToWrite = commandHistory[commandHistoryIndex];
+                        for (var i in TextToWrite) {
+                            _KernelInputQueue.enqueue(TextToWrite[i]);
+                        }
+                    }
                 }
                 else if (chr === String.fromCharCode(38)) { // Up arrow is ASCII code 38
-                    //if(commandHistoryIndex < commandHistory.length - 1) {
-                    //    commandHistoryIndex++;
-                    //call something to clear the current line and display the new line
-                    //    this.clearLine();
-                    //    var TextToWrite: String = commandHistory[commandHistoryIndex]
-                    //    for(var i in TextToWrite){
-                    //        _KernelInputQueue.enqueue(i);
-                    //    }
-                    //}
-                    _KernelInputQueue.enqueue("u");
+                    if (commandHistoryIndex < commandHistory.length - 1) {
+                        this.buffer = commandHistory.shift() || "";
+                        commandHistoryIndex++;
+                        //call something to clear the current line and display the new line
+                        this.clearLine();
+                        var TextToWrite = commandHistory[commandHistoryIndex];
+                        for (var i in TextToWrite) {
+                            _KernelInputQueue.enqueue(TextToWrite[i]);
+                        }
+                    }
                 }
                 else {
                     // This is a "normal" character, so ...
