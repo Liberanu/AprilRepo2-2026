@@ -4,7 +4,7 @@
    The Kernel Keyboard Device Driver.
    ---------------------------------- */
 
-module TSOS {
+namespace TSOS {
 
     // Extends DeviceDriver
     export class DeviceDriverKeyboard extends DeviceDriver {
@@ -34,7 +34,38 @@ module TSOS {
             _Kernel.krnTrace("Key code:" + keyCode + " shifted:" + isShifted);
             var chr = "";
             // Check to see if we even want to deal with the key that was pressed.
-            if ((keyCode >= 65) && (keyCode <= 90)) { // letter
+            if (keyCode == 8) { // backspace
+                if(_SarcasticMode){
+                    _KernelInputQueue.enqueue('b');
+                    _KernelInputQueue.enqueue('a');
+                    _KernelInputQueue.enqueue('c');
+                    _KernelInputQueue.enqueue('k');
+                    _KernelInputQueue.enqueue('s');
+                    _KernelInputQueue.enqueue('p');
+                    _KernelInputQueue.enqueue('a');
+                    _KernelInputQueue.enqueue('c');
+                    _KernelInputQueue.enqueue('e');
+                }
+                else{ //normally handle backspace
+                // adds backspace to the queue (where it checks that its a backspace and removes the last character from the buffer)
+                _KernelInputQueue.enqueue(String.fromCharCode(keyCode));
+                }
+            
+            }
+            else if(keyCode == 9){ // check for tab
+                if(_SarcasticMode){ // sarcastically just add 4 spaces
+                    chr = String.fromCharCode(32);
+                    for(let i=0; i<=4;i++){
+                        _KernelInputQueue.enqueue(chr);
+                    }
+                } // replace this with algorithm to check if only 1 command matches the entered characters
+                else{ 
+                // adds tab to the queue (where it will run a check of the buffer to see if it matches any commands and if so, will autocomplete the command)
+                    _KernelInputQueue.enqueue(String.fromCharCode(keyCode));
+
+                }
+            }
+            else if ((keyCode >= 65) && (keyCode <= 90)) { // letter
                 if (isShifted === true) { 
                     chr = String.fromCharCode(keyCode); // Uppercase A-Z
                 } else {
@@ -46,6 +77,56 @@ module TSOS {
                         (keyCode == 32)                     ||   // space
                         (keyCode == 13)) {                       // enter
                 chr = String.fromCharCode(keyCode);
+                _KernelInputQueue.enqueue(chr);
+            }
+            else if (((keyCode >= 48) && (keyCode <= 57)) || // digits
+                (keyCode == 32) || // space
+                (keyCode == 13) || // enter
+                (keyCode == 8)) {  // backspace
+                    if (isShifted === false){
+                    chr = String.fromCharCode(keyCode);
+                    _KernelInputQueue.enqueue(chr);
+                    }
+                    else{
+                        if (keyCode == 48){chr = String.fromCharCode(41);}
+                        else if (keyCode == 49){chr = String.fromCharCode(33);}
+                        else if (keyCode == 50){chr = String.fromCharCode(64);}
+                        else if (keyCode == 51){chr = String.fromCharCode(35);}
+                        else if (keyCode == 52){chr = String.fromCharCode(36);}
+                        else if (keyCode == 53){chr = String.fromCharCode(37);}
+                        else if (keyCode == 54){chr = String.fromCharCode(94);}
+                        else if (keyCode == 55){chr = String.fromCharCode(38);}
+                        else if (keyCode == 56){chr = String.fromCharCode(42);}
+                        else if (keyCode == 57){chr = String.fromCharCode(40);}
+                    _KernelInputQueue.enqueue(chr);
+                    }
+            }
+            else {// all other symbols
+                if(isShifted === false){ // not shifted
+                    if(keyCode == 189){chr = String.fromCharCode(45);} // -
+                    if(keyCode == 187){chr = String.fromCharCode(61);} // =
+                    if(keyCode == 220){chr = String.fromCharCode(95);} // \
+                    if(keyCode == 219){chr = String.fromCharCode(91);} // [
+                    if(keyCode == 221){chr = String.fromCharCode(93);} // ]
+                    if(keyCode == 186){chr = String.fromCharCode(59);} // ;
+                    if(keyCode == 222){chr = String.fromCharCode(39);} // '
+                    if(keyCode == 188){chr = String.fromCharCode(44);} // ,
+                    if(keyCode == 190){chr = String.fromCharCode(46);} // .
+                    if(keyCode == 191){chr = String.fromCharCode(47);} // /
+
+                }
+                else{ // shifted
+                    if(keyCode == 189){chr = String.fromCharCode(95);} // _
+                    if(keyCode == 187){chr = String.fromCharCode(43);} // +
+                    if(keyCode == 220){chr = String.fromCharCode(124);} // |
+                    if(keyCode == 219){chr = String.fromCharCode(123);} // {
+                    if(keyCode == 221){chr = String.fromCharCode(125);} // }
+                    if(keyCode == 186){chr = String.fromCharCode(58);} // :
+                    if(keyCode == 222){chr = String.fromCharCode(34);} // "
+                    if(keyCode == 188){chr = String.fromCharCode(60);} // <
+                    if(keyCode == 190){chr = String.fromCharCode(62);} // >
+                    if(keyCode == 191){chr = String.fromCharCode(63);} // ?
+                }
                 _KernelInputQueue.enqueue(chr);
             }
         }

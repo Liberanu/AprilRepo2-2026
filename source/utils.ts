@@ -4,11 +4,11 @@
    Utility functions.
    -------- */
 
-module TSOS {
+namespace TSOS {
 
     export class Utils {
 
-        public static trim(str): string {
+        public static trim(str: string) {
             // Use a regular expression to remove leading and trailing spaces.
             return str.replace(/^\s+ | \s+$/g, "");
             /*
@@ -42,6 +42,40 @@ module TSOS {
                 }
             }
             return retVal;
+        }
+
+                static autoCompleteCommand(input: string, data: []) {
+            if (input.value.length == input.selectionStart && input.value.length == input.selectionEnd) {
+                var candidates: [] = []
+                // filter data to find only strings that start with existing value
+                for (var i=0; i < data.length; i++) {
+                if (data[i].indexOf(input.value) == 0 && data[i].length > input.value.length)
+                    candidates.push(data[i])
+                }
+
+                if (candidates.length > 0) {
+                // some candidates for autocompletion are found
+                if (candidates.length == 1) input.value = candidates[0]
+                else input.value = Utils.longestInCommon(candidates, input.value.length)
+                return true
+                }
+            }
+            return false
+        }
+        static longestInCommon(Candidates: [], index: Number) {
+            var i, ch, memo
+            do {
+                memo = null
+                for (i=0; i < Candidates.length; i++) {
+                ch = Candidates[i].charAt(index)
+                if (!ch) break
+                if (!memo) memo = ch
+                else if (ch != memo) break
+                }
+            } while (i == Candidates.length && index++)
+
+            return Candidates[0].slice(0, index)
+        
         }
     }
 }

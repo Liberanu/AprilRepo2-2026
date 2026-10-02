@@ -29,6 +29,12 @@ namespace TSOS {
             this.currentXPosition = 0;
             this.currentYPosition = this.currentFontSize;
         }
+        public clearLine(): void{
+            var x = this.currentXPosition - _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length-1));
+            var y = this.currentYPosition - this.currentFontSize ;
+            var width = 2000
+            var height = this.currentFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) + _FontHeightMargin;
+        }
 
         public handleInput(): void {
             while (_KernelInputQueue.getSize() > 0) {
@@ -45,16 +51,40 @@ namespace TSOS {
                 }
                 else if (chr === String.fromCharCode(8)){ //check for backspace key
                     this.buffer = this.buffer.substring(0, this.buffer.length - 1);
+                    //find the x position, y position, width and height of the last character in the buffer
+                    var x = this.currentXPosition - _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length-1));
+                    var y = this.currentYPosition - this.currentFontSize ;
+                    var width = _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length-1));
+                    var height = this.currentFontSize + _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) + _FontHeightMargin;
+
+                    //move the current x position back to the last character in the buffer
+                    this.currentXPosition = this.currentXPosition - _DrawingContext.measureText(this.currentFont, this.currentFontSize, this.buffer.charAt(this.buffer.length-1));
+                    //remove the last character from the buffer
+                    this.buffer = this.buffer.substring(0, this.buffer.length - 1);
+                    // erase the contents of the canvas for the last character added to the canvas
+                    _DrawingContext.clearRect(x,y,width,height);
+
                 }
                 else if (chr === String.fromCharCode(40)){ //check for down arrow key
                     if (commandHistory.length > 0){
                         this.buffer = commandHistory.shift() || "";
                     }
                 }
-                else if (chr === String.fromCharCode(38)){ //check for up arrow key
-                    if (commandHistory.length > 0){
-                        this.buffer = commandHistory.pop() || "";
+                else if(chr === String.fromCharCode(9)) { // Tab is ASCII code 9
+                    var temp = Utils.autoCompleteCommand(this.buffer, Shell.getCommandList());
+                }
+                else if(chr === String.fromCharCode(38)) { // Up arrow is ASCII code 38
+                    if(commandHistoryIndex < commandHistory.length - 1) {
+                        commandHistoryIndex++;
+                        //call something to clear the current line and display the new line
+                        this.clearLine();
+                        var TextToWrite: String = commandHistory[commandHistoryIndex]
+                        for(var i in TextToWrite){
+                            _KernelInputQueue.enqueue(i);
+                        }
+
                     }
+                }
                 else {
                     // This is a "normal" character, so ...
                     // ... draw it on the screen...

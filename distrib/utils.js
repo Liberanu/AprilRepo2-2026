@@ -59,8 +59,8 @@ var TSOS;
                 else input.value = longestInCommon(candidates, input.value.length)
                 return true
                 }
-  }
-  return false
+            }
+            return false
         }
         static longestInCommon(Candidates, index) {
             var i, ch, memo
