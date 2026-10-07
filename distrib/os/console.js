@@ -1,3 +1,4 @@
+"use strict";
 /* ------------
      Console.ts
 
@@ -69,10 +70,17 @@ var TSOS;
                     _DrawingContext.clearRect(x, y, width, height);
                 }
                 else if (chr === String.fromCharCode(9)) { // Tab is ASCII code 9
-                    //var temp = Utils.autoCompleteCommand(this.buffer, Shell.getCommandList());
-                    var test = ["t", "h", "e"];
-                    for (var i in test) {
-                        _KernelInputQueue.enqueue(test[i]);
+                    const currentBuffer = this.buffer.trim();
+                    var matchfound = false;
+                    let suggestions = [];
+                    if (currentBuffer.length > 0) {
+                        suggestions = _OsShell.commandList
+                            .filter(commandObject => commandObject.command.toLowerCase().startsWith(currentBuffer.toLowerCase()))
+                            .map(commandObject => commandObject.command);
+                    }
+                    if (suggestions.length === 1) {
+                        matchfound = true;
+                        this.completeCommand(suggestions[0], currentBuffer);
                     }
                 }
                 else if (chr === String.fromCharCode(38)) { //check for up arrow key
@@ -141,6 +149,19 @@ var TSOS;
                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                 _FontHeightMargin;
             // TODO: Handle scrolling. (iProject 1)
+        }
+        completeCommand(completedCommand, currentVerbage) {
+            // Clear the old text (currentVerbage)
+            const offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, currentVerbage);
+            this.currentXPosition -= offset;
+            _DrawingContext.clearRect(this.currentXPosition, this.currentYPosition - this.currentFontSize, offset, this.currentFontSize + _FontHeightMargin);
+            // Update the buffer with the completed command
+            this.buffer = completedCommand;
+            // Redraw the completed command
+            _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, completedCommand);
+            // Measure the width of the completed command and update the X position
+            const newOffset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, completedCommand);
+            this.currentXPosition += newOffset;
         }
     }
     TSOS.Console = Console;

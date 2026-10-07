@@ -3,9 +3,9 @@ const dateElement = document.querySelector(".date");
 const statusElement = document.querySelector(".status");
 
 function formatTime(string: Date) {
-  const hours12 = Date.getHours() % 12 || 12;
-  const minutes = Date.getMinutes();
-  const isAm = Date.getHours() < 12;
+  const hours12 = date.getHours() % 12 || 12;
+  const minutes = date.getMinutes();
+  const isAm = date.getHours() < 12;
 
   return `${hours12.toString().padStart(2, "0")}:${minutes
     .toString()
