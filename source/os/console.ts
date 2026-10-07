@@ -166,5 +166,16 @@ namespace TSOS {
             const newOffset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, completedCommand);
             this.currentXPosition += newOffset;
         }
+
+        publicBlueScreen(): void {
+            _DrawingContext.clearRect(0, 0, _Canvas.width, _Canvas.height);
+            _DrawingContext.fillStyle = "blue";
+            _DrawingContext.fillRect(0, 0, _Canvas.width, _Canvas.height);
+            _DrawingContext.fillStyle = "white";
+            const message = "A critical error has occurred. Please restart the system.";
+            const textWidth = _DrawingContext.measureText(this.currentFont, this.currentFontSize, message);
+            const xPosition = (_Canvas.width - textWidth) / 2;
+            const yPosition = _Canvas.height / 2;
+            _DrawingContext.drawText(this.currentFont, this.currentFontSize, xPosition, yPosition, message);
     }
  }
