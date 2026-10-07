@@ -1,4 +1,3 @@
-"use strict";
 /* ------------
      Console.ts
 
@@ -12,12 +11,18 @@ var TSOS;
         currentFontSize;
         currentXPosition;
         currentYPosition;
+        commandHistory;
+        commandHistoryIndex;
+        commandHistoryCursor;
         buffer;
-        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, buffer = "") {
+        constructor(currentFont = _DefaultFontFamily, currentFontSize = _DefaultFontSize, currentXPosition = 0, currentYPosition = _DefaultFontSize, commandHistory = [], commandHistoryIndex = 0, commandHistoryCursor = 0, buffer = "") {
             this.currentFont = currentFont;
             this.currentFontSize = currentFontSize;
             this.currentXPosition = currentXPosition;
             this.currentYPosition = currentYPosition;
+            this.commandHistory = commandHistory;
+            this.commandHistoryIndex = commandHistoryIndex;
+            this.commandHistoryCursor = commandHistoryCursor;
             this.buffer = buffer;
         }
         init() {
@@ -45,7 +50,7 @@ var TSOS;
                 if (chr === String.fromCharCode(13)) { // the Enter key
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
-                    commandHistory.push(this.buffer);
+                    this.commandHistory.push(this.buffer);
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
                     this.buffer = "";
@@ -70,27 +75,33 @@ var TSOS;
                         _KernelInputQueue.enqueue(test[i]);
                     }
                 }
-                else if (chr === String.fromCharCode(40)) { //check for down arrow key
-                    if (commandHistory.length > 0) {
-                        this.buffer = commandHistory.shift() || "";
-                        commandHistoryIndex--;
-                        this.clearLine();
-                        var TextToWrite = commandHistory[commandHistoryIndex];
-                        for (var i in TextToWrite) {
-                            _KernelInputQueue.enqueue(TextToWrite[i]);
+                else if (chr === String.fromCharCode(38)) { //check for up arrow key
+                    if (this.commandHistory.length > 0) {
+                        if (this.commandHistoryIndex > 0) {
+                            this.commandHistoryIndex--;
                         }
+                        _DrawingContext.clearRect(0, this.currentYPosition - this.currentFontSize, _Canvas.width, this.currentFontSize + _FontHeightMargin);
+                        this.buffer = this.commandHistory[this.commandHistoryIndex];
+                        this.currentXPosition = 0;
+                        this.putText(_OsShell.promptStr + this.buffer);
                     }
                 }
-                else if (chr === String.fromCharCode(38)) { // Up arrow is ASCII code 38
-                    if (commandHistoryIndex < commandHistory.length - 1) {
-                        this.buffer = commandHistory.shift() || "";
-                        commandHistoryIndex++;
-                        //call something to clear the current line and display the new line
-                        this.clearLine();
-                        var TextToWrite = commandHistory[commandHistoryIndex];
-                        for (var i in TextToWrite) {
-                            _KernelInputQueue.enqueue(TextToWrite[i]);
+                else if (chr === String.fromCharCode(40)) { // check for down arrow key
+                    if (this.commandHistory.length > 0) {
+                        if (this.commandHistoryIndex < this.commandHistory.length - 1) {
+                            this.commandHistoryIndex++;
                         }
+                        else {
+                            this.commandHistoryIndex = this.commandHistory.length;
+                            this.buffer = "";
+                        }
+                        _DrawingContext.clearRect(0, this.currentYPosition - this.currentFontSize, _Canvas.width, this.currentFontSize + _FontHeightMargin);
+                        this.currentXPosition = 0;
+                        if (this.commandHistoryIndex < this.commandHistory.length) {
+                            this.buffer = this.commandHistory[this.commandHistoryIndex];
+                        }
+                        this.currentXPosition = 0;
+                        this.putText(_OsShell.promptStr + this.buffer);
                     }
                 }
                 else {
