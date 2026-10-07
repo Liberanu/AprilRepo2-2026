@@ -394,18 +394,24 @@ module TSOS {
 
             }
             else {_StdOut.putText("invalid arguement");}  
-    }
+        }
 
-    public getCommandList(){
-        return this.commandList;
-    }
+        public validateInput(input: string){
+            var usercode = getElementById("taProgramInput").value;
+        }
 
-    public run(){
+    
 
-    }
-    public load(){
+        public getCommandList(){
+            return this.commandList;
+        }
 
-    }
+        public run(){
+
+        }
+        public load(){
+
+        }
     }
 
 

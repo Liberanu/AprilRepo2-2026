@@ -379,6 +379,9 @@ var TSOS;
                 _StdOut.putText("invalid arguement");
             }
         }
+        validateInput(input) {
+            var usercode = getElementById("taProgramInput").value;
+        }
         getCommandList() {
             return this.commandList;
         }
