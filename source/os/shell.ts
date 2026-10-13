@@ -396,8 +396,9 @@ module TSOS {
             else {_StdOut.putText("invalid arguement");}  
         }
 
-        public validateInput(input: string){
-            var usercode = getElementById("taProgramInput").value;
+        public shellvalidate(){
+            var usercode = document.getElementById("taProgramInput").value;
+            _StdOut.putText(usercode);
         }
 
     
@@ -406,10 +407,10 @@ module TSOS {
             return this.commandList;
         }
 
-        public run(){
+        public shellrun(){
 
         }
-        public load(){
+        public shellload(){
 
         }
     }

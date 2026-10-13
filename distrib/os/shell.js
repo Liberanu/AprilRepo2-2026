@@ -379,15 +379,16 @@ var TSOS;
                 _StdOut.putText("invalid arguement");
             }
         }
-        validateInput(input) {
-            var usercode = getElementById("taProgramInput").value;
+        shellvalidate() {
+            var usercode = document.getElementById("taProgramInput").value;
+            _StdOut.putText(usercode);
         }
         getCommandList() {
             return this.commandList;
         }
-        run() {
+        shellrun() {
         }
-        load() {
+        shellload() {
         }
     }
     TSOS.Shell = Shell;
