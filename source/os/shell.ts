@@ -396,12 +396,10 @@ module TSOS {
             else {_StdOut.putText("invalid arguement");}  
         }
 
-        public shellvalidate(){
+        public shellvalidate(){ //can remove this after testing
             var usercode = document.getElementById("taProgramInput").value;
             _StdOut.putText(usercode);
         }
-
-    
 
         public getCommandList(){
             return this.commandList;
@@ -410,7 +408,7 @@ module TSOS {
         public shellrun(){
 
         }
-        public shellload(){
+        public shellload(){ //need to take the machine code from the text area and load it into "memory" 
 
         }
     }
