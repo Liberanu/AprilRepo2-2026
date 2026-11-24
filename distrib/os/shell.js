@@ -388,7 +388,83 @@ var TSOS;
         }
         shellrun() {
         }
-        shellload() {
+        shellLoad() {
+            const textBox = document.getElementById("taProgramInput"); // ChatGPT 9/3/2024. I asked why the textBox.value was not working, it said to make it into this data type
+            const userProgramInput = textBox.value;
+            const userProgramInputWithoutSpaces = userProgramInput.replace(/\s+/g, ''); // used to make sure spaces are not counted when calculating program size
+            if (userProgramInput.trim() === '') {
+                _StdOut.putText("Invalid Program: User Program Input is Empty");
+                return;
+            }
+            if (userProgramInputWithoutSpaces.length > 512) {
+                _StdOut.putText("Invalid Program: User Program Exceeds 256 Bytes");
+                return;
+            }
+            //ChatGPT 9/3. 
+            // I asked for regex condition where A-F, a-f, 0-9, and whitespace is acceptable
+            const isValidInput = /^[A-Fa-f0-9\s]*$/.test(userProgramInput);
+            if (!isValidInput) {
+                _StdOut.putText("Invalid Program: Input must be A-F, 0-9, or whitespace");
+                return;
+            }
+            // make sure there are an even amount of non whitespace characters
+            const hasEvenNumberOfCharacters = userProgramInput.replace(/\s+/g, ''); // replaces whitespace with empty string
+            // if amount of characters is odd
+            if (hasEvenNumberOfCharacters.length % 2 == 1) {
+                _StdOut.putText("Invalid Program: Number of characters must be even");
+                return;
+            }
+            // ChatGPT 9/3. 
+            // I prompted it to help generate the code to format the text in the text area on the following principles: 
+            // 1. Eliminate whitespace between pairs
+            // 2. Numbers and Letters can start the pair
+            // 3. Numbers can be paired with numbers, letters can be paired with letters
+            // 4. Turn Lower Case into Upper
+            //Format the textarea if it is valid
+            const formattedText = userProgramInput
+                .split(/\s+/) // Split by any whitespace characters
+                .filter(Boolean) // Remove empty strings from the array
+                .join('') // Join without spaces to get the combined characters
+                .toUpperCase() // Convert all characters to uppercase
+                .match(/([A-Z]{2}|\d{2}|[A-Z]\d|\d[A-Z])/g) // Match two letters, two numbers, or letter-number pairs
+                ?.join(' ') || ''; // Join matched pairs with a space between them
+            textBox.value = formattedText;
+            // make each op code into a list
+            const hexStringArray = textBox.value.split(" ");
+            let program = [];
+            for (let i = 0; i < hexStringArray.length; i++) {
+                let value = parseInt(hexStringArray[i], 16); // convert the string hex into a number and push to the temporary memory array
+                program.push(value);
+            }
+            const isMemoryAvailble = _MemoryManager.isSpaceAvailable();
+            const isSwapSpaceAvailable = _Swapper.isSwapSpaceAvailable();
+            // use the memory manager and swapper to make sure there is space for a program
+            if (!isMemoryAvailble && !isSwapSpaceAvailable) {
+                _StdOut.putText("Failed to Load: No memory segments or swap files available.");
+                return;
+            }
+            // handle loading in a memory segment
+            if (isMemoryAvailble) {
+                const currentSegment = _CurrentMemorySegment;
+                // load the program into memory
+                _MemoryAccessor.flashMemory(program, currentSegment);
+                // create the pcb using the manager, set the status, and update the table
+                const pcbEntry = _PCBManager.createPCB(8); // pass the priority of 8 as default for a program
+                pcbEntry.updateSegmentBaseAndLimit(currentSegment);
+                pcbEntry.updatePCBTable();
+                _StdOut.putText(`Process ID: ${pcbEntry.PID} Priority: ${pcbEntry.priority}`);
+                return;
+            }
+            // handle loading onto disk
+            if (isSwapSpaceAvailable) { // called explictly because an else would not work because this function makes sure the disk is formatted.
+                const pcbEntry = _PCBManager.createPCB(8);
+                pcbEntry.updatePCBForSwapFile();
+                pcbEntry.updatePCBTable();
+                let contentForSwapFile = program.map((num) => num.toString(16).toUpperCase().padStart(2, '0')).join(''); // turn each of these into the proper hex characters for the swapfile. Chat GPT 12/2/24 helped me deal with the 0's not working correctly
+                _Swapper.createSwapFile(pcbEntry.PID, contentForSwapFile);
+                _StdOut.putText(`Process ID: ${pcbEntry.PID} Priority: ${pcbEntry.priority}`);
+                return;
+            }
         }
     }
     TSOS.Shell = Shell;

@@ -27,6 +27,16 @@ const KEYBOARD_IRQ: number = 1;
 //
 
 var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
+var _Memory: TSOS.Memory;
+var _MemoryAccessor: TSOS.MemoryAccessor;
+
+var _MemoryManager = TSOS.MemoryManager;
+var _ProcessControlBlock = TSOS.ProcessControlBlock; 
+var _PCBManager = TSOS.PCBManager;
+var _Swapper = TSOS.Swapper;
+
+
+let _CurrentMemorySegment;
 
 var _OSclock: number = 0;  // Page 23.
 

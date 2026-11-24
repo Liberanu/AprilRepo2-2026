@@ -19,6 +19,19 @@ var TSOS;
             - "" is nothing, which is what we replace the whitespace with.
             */
         }
+        static hexLog(hexNumber, length, noPadding) {
+            const hexString = hexNumber.toString(16).toUpperCase();
+            const hexStringLength = hexString.length;
+            // pad with 0's if necessary
+            if (hexStringLength < length) {
+                const zeroCount = length - hexStringLength;
+                const paddedHexString = "0".repeat(zeroCount) + hexString;
+                return noPadding ? paddedHexString : "0x" + paddedHexString;
+            }
+            else {
+                return noPadding ? hexString : "0x" + hexString;
+            }
+        }
         static rot13(str) {
             /*
                This is an easy-to understand implementation of the famous and common Rot13 obfuscator.

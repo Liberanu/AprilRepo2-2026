@@ -55,3 +55,11 @@ h3 {
   width: 400px;
   font-weight: 500;
 }
+
+
+#divMemory, #divDisk, #divPCB, #divCPU {
+  background-color: white;
+  color: #000000;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}

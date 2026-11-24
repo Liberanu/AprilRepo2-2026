@@ -9,7 +9,7 @@
 
 // TODO: Write a base class / prototype for system services and let Shell inherit from it.
 
-module TSOS {
+namespace TSOS {
     export class Shell {
         // Properties
         public promptStr = ">";
@@ -120,7 +120,7 @@ module TSOS {
             _StdOut.putText(this.promptStr);
         }
 
-        public handleInput(buffer) {
+        public handleInput(buffer: string) {
             _Kernel.krnTrace("Shell Command~" + buffer);
             //
             // Parse the input...
@@ -409,13 +409,54 @@ module TSOS {
 
         }
         public shellload(){ //need to take the machine code from the text area and load it into "memory" 
+            const textbox = document.getElementById("taProgramInput");
+            const userProgram = textbox.value;
+            const userProgramCleaned = userProgram.replace(/\s+/g, ' ')();
+            if (userProgramCleaned.length === 0) {
+                _StdOut.putText("No program input detected.");
+                return;
+            }
+            if (userProgramCleaned.length > 512) {
+                _StdOut.putText("Program is too long. Maximum length is 512 characters.");
+                return;
+            }
+            const isValidInput = /^[0-9A-Fa-f\s]+$/.test(userProgramCleaned);
+            if (!isValidInput) {
+                _StdOut.putText("Invalid input. Please enter only hexadecimal characters (0-9, A-F).");
+                return;
+            }
+            const hasEvenLength = userProgramCleaned.replace(/\s+/g, '').length % 2 == 1;
+            if (!hasEvenLength) {
+                _StdOut.putText("Invalid input. The number of hexadecimal characters must be even.");
+                return;
+            }
 
-        }
+            const formattedInput = userProgram.split(/\s+/).filter(Boolean).join(' ').toUpperCase().match(/([A-Z]{2}|\d{2}|[A-Z]\d|\d[A-Z])/g)?.join(' ') || '';
+            textbox.value = formattedInput;
+
+            const hexStringArray = textbox.value.split(' ');
+            let program = [];
+            for (let i = 0; i < hexStringArray.length; i++) {
+                const hexString = hexStringArray[i];
+                const byteValue = parseInt(hexString, 16);
+                program.push(byteValue);
+            }
+            const isMemoryAvailable = _MemoryManager.isSpaceAvailable();
+            
+            if (isMemoryAvailable) {
+                const currentSegment = _MemoryManager.getCurrentSegment();
+                _MemoryAccessor.flashMemory(program, currentSegment);
+                const pcbEntry = _PCBManager.CreatePCB(8);
+                pcbEntry.updatePCBTable();
+                _StdOut.putText('Process ID: ${pcbEntry.PID} Priority: ${pcbEntry.priority}');
+                return;
+            }
+
+
+
+
+
+
     }
-
-
-
-
-
-    }
-
+}
+}

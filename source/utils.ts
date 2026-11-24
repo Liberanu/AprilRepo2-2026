@@ -21,6 +21,21 @@ namespace TSOS {
             */
         }
 
+        
+        public static hexLog(hexNumber: number, length: number, noPadding: boolean) {
+            const hexString = hexNumber.toString(16).toUpperCase();
+            const hexStringLength = hexString.length;
+            // pad with 0's if necessary
+            if (hexStringLength < length) {
+                const zeroCount = length - hexStringLength;
+                const paddedHexString = "0".repeat(zeroCount) + hexString;
+                return noPadding ? paddedHexString : "0x" + paddedHexString; 
+            }
+            else {
+                return noPadding ? hexString : "0x" + hexString;
+            }
+        }
+
         public static rot13(str: string): string {
             /*
                This is an easy-to understand implementation of the famous and common Rot13 obfuscator.

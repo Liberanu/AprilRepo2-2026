@@ -70,6 +70,9 @@ var TSOS;
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
             _CPU = new TSOS.Cpu(); // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init(); //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
+            _Memory = new TSOS.Memory();
+            Control.initializeMemoryTable();
+            _MemoryAccessor = new TSOS.MemoryAccessor(_Memory);
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(TSOS.Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
             // .. and call the OS Kernel Bootstrap routine.
@@ -88,6 +91,21 @@ var TSOS;
         static hostBtnReset_click(btn) {
             // The easiest and most thorough way to do this is to reload (not refresh) the document.
             location.reload();
+        }
+        static initializeMemoryTable() {
+            let memoryTable = document.getElementById("memoryTable");
+            for (let i = 0x000; i < 0x300; i += 8) {
+                let row = memoryTable.insertRow();
+                let addressCell = row.insertCell();
+                addressCell.innerHTML = TSOS.Utils.hexLog(i, 3);
+                for (let j = 0x01; j <= 0x08; j++) {
+                    let cell1 = row.insertCell();
+                    cell1.innerHTML = "00";
+                }
+            }
+        }
+        static updateMemoryTable() {
+            let memoryTable = document.getElementById("memoryTable");
         }
     }
     TSOS.Control = Control;

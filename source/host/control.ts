@@ -18,7 +18,7 @@
 //
 // Control Services
 //
-module TSOS {
+namespace TSOS {
 
     export class Control {
 
@@ -88,6 +88,10 @@ module TSOS {
             _CPU = new Cpu();  // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init();       //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
 
+            _Memory = new Memory();
+            Control.initializeMemoryTable();
+            _MemoryAccessor = new MemoryAccessor(_Memory);
+
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
             // .. and call the OS Kernel Bootstrap routine.
@@ -108,6 +112,25 @@ module TSOS {
         public static hostBtnReset_click(btn): void {
             // The easiest and most thorough way to do this is to reload (not refresh) the document.
             location.reload();
+        }
+
+
+        public static initializeMemoryTable(): void {
+            let memoryTable = document.getElementById("memoryTable");
+            for (let i = 0x000; i < 0x300; i += 8) {
+                let row = memoryTable.insertRow();
+                let addressCell = row.insertCell();
+                addressCell.innerHTML = TSOS.Utils.hexLog(i, 3);
+                for (let j = 0x01; j <= 0x08; j++) {
+                    let cell1 = row.insertCell();
+                cell1.innerHTML = "00"
+                }
+            }
+        }
+
+        public static updateMemoryTable(): void {
+            let memoryTable = document.getElementById("memoryTable");
+
         }
     }
 }

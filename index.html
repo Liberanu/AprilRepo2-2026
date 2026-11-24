@@ -80,6 +80,58 @@ note to April, left old code for canvas div in in case it breaks-->
               tabindex="3">
       </canvas>
    </div>
+         <div id="divRight">
+         <div id="divMemory">
+            <label>Memory</label>
+            <table id="memoryTable"></table>
+         </div>
+
+         <div>
+            <label>Quantum: </label>
+            <label id="quantumValue"> 6 </label>
+            <label>Current Quantum Count: </label>
+            <label id="currentQuantumCount"> 0</label>
+         </div>
+
+         <div id="divPCB">
+            <label>Process Control Block</label>
+            <table id="pcbTable"> 
+               <tr> 
+                  <td> PID</td>
+                  <td> Priority</td>
+                  <td> Location</td>
+                  <td> Segment</td>
+                  <td> Base </td>
+                  <td> Limit </td>
+                  <td> PC</td>
+                  <td> IR</td>
+                  <td> Accumulator</td>
+                  <td> X Reg</td>
+                  <td> Y Reg</td>
+                  <td> Z Flag</td>
+                  <td> Status</td>
+               </tr>
+
+
+
+            </table>
+         </div>
+
+         <div id="divCPU">
+            <label>CPU</label>
+            <table id="cpuTable"> 
+               <tr> 
+                  <td> PC</td>
+                  <td> IR </td>
+                  <td> Accumulator</td>
+                  <td> X Register</td>
+                  <td> Y Register</td>
+                  <td> Z Flag</td>
+               </tr>
+            </table>
+         </div>
+         
+      </div>
 
    <div id="divLog" style="margin-left:520px;">
       <label>
@@ -112,6 +164,7 @@ note to April, left old code for canvas div in in case it breaks-->
       </label>
    </div>
 </div>
+
 
 <p class="footerText" style="clear:both;">
    <br>
